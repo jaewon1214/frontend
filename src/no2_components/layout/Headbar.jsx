@@ -1,14 +1,18 @@
 import React from 'react'
 import styled from 'styled-components'
+import { useNavigate } from 'react-router-dom'
 
 const Header = styled.header`
   height: 60px;
   background: #1e293b;
   color: white;
+
   display: flex;
   justify-content: space-between;
   align-items: center;
+
   padding: 0 30px;
+
   position: fixed;
   top: 0;
   left: 0;
@@ -18,28 +22,97 @@ const Header = styled.header`
 const Logo = styled.div`
   font-size: 22px;
   font-weight: bold;
-`
-
-const ButtonBox = styled.div``
-
-const Button = styled.button`
-  margin-left: 10px;
-  padding: 8px 14px;
-  border: none;
-  border-radius: 8px;
-  background: white;
   cursor: pointer;
 `
 
-const Headbar = () => {
+const ButtonBox = styled.div`
+  display: flex;
+  align-items: center;
+  gap: 10px;
+`
+
+const Button = styled.button`
+  padding: 8px 14px;
+
+  border: none;
+  border-radius: 8px;
+
+  background: white;
+
+  cursor: pointer;
+
+  font-weight: 600;
+
+  transition: 0.2s;
+
+  &:hover{
+    opacity: 0.85;
+  }
+`
+
+const UserText = styled.div`
+  font-size: 15px;
+  font-weight: 500;
+`
+
+const LogoutButton = styled(Button)`
+  background: #ef4444;
+  color: white;
+
+  &:hover{
+    background: #dc2626;
+  }
+`
+
+const Headbar = ({ LoginMode, setLoginMode }) => {
+
+  const navigate = useNavigate();
+
+  const handleLogout = () => {
+
+    setLoginMode(prev => ({
+      isLogin: false,
+      username:""
+    }))
+
+    alert("로그아웃 되었습니다.")
+
+    navigate("/login")
+  }
+
   return (
     <Header>
-      <Logo>Logo</Logo>
+
+      <Logo onClick={() => navigate("/")}>
+        Logo
+      </Logo>
 
       <ButtonBox>
-        <Button>로그인</Button>
-        <Button>회원가입</Button>
+
+        {LoginMode.isLogin ? (
+          <>
+            <UserText>
+              안녕 {LoginMode.username}
+            </UserText>
+
+            <LogoutButton onClick={handleLogout}>
+              로그아웃
+            </LogoutButton>
+          </>
+        ) : (
+          <>
+            <Button onClick={() => navigate("/login")}>
+              로그인
+            </Button>
+
+            <Button onClick={() => navigate("/register")}>
+              회원가입
+            </Button>
+          </>
+        )}
+
       </ButtonBox>
+
     </Header>
   )
 }
