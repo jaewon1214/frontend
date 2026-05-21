@@ -1,27 +1,26 @@
 import React from 'react'
 
-const EmployeeTable = ({infos}) => {
+const EmployeeTable = ({state}) => {
+  const {emp} = state;
+
   return (
-    <div>
-        <table>
-            <tr>
-                {Object.keys(infos[0]).map(key=>(
-                    <th>{key}</th>
-                ))}
-                <th></th>
-            </tr>
-            {infos.map(item => (
-                <tr>
-                    {Object.values(item).map(value => (
-                        <td>{value}</td>
-                    ))}
-                </tr>
-            ))}
-            <tr>
-                <td></td>
-            </tr>
-        </table>
-    </div>
+    <table className="employee-table">
+      <thead>
+        <tr>
+          {emp && Object.keys(emp).map(key => (
+            <th key={key}>{key}</th>
+          ))}
+        </tr>
+      </thead>
+
+      <tbody>
+        <tr>
+          {emp && Object.values(emp).map((value, index) => (
+            <td key={index}>{value}</td>
+          ))}
+        </tr>
+      </tbody>
+    </table>
   )
 }
 
