@@ -1,12 +1,10 @@
 import React from 'react'
 
-const EmployeeList = ({state, setState}) => {
+const EmployeeList = ({state, dispatch}) => {
   const {empTable, selectedId} = state;
 
   const handleClick = (id) => {
-    setState(prev => (
-      {...prev, selectedId: id }
-    ))
+    dispatch({type: "select", payload: id})
   }
 
   return (

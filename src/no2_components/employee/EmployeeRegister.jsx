@@ -17,7 +17,7 @@ const initialState = {
   emp: initialEmp
 }
 
-const reducer = (state, action) =>{
+/*const reducer = (state, action) =>{
   switch(action.type){
     case "change" : 
       const {name, value} = event.target;
@@ -27,9 +27,9 @@ const reducer = (state, action) =>{
           emp: {...state.emp, [name] : value  }
         }
   }
-}
+}*/
 
-  const EmployeeRegister = ({setState}) => {
+  const EmployeeRegister = ({dispatch}) => {
   const [ emp,setEmp] = useState(initialEmp);
 
   const handleChange = (event) =>{
@@ -41,18 +41,11 @@ const reducer = (state, action) =>{
 
   const handleSubmmit = (event) =>{
     event.preventDefault();
-    emp &&
-    setState(prev => (
-      {
-        ...prev,
-        empTable: [...prev.empTable, 
-                    {...emp, id: Date.now()}]
-      }
-    ))
-    setState(prev => ({
-      ...prev,
-        selectedId : prev.empTable[prev.empTable.length-1].id
-    }))
+    
+    const newId = Date.now().toString();
+
+    dispatch({type: "register", payload:{newId, emp}})
+
     setEmp(initialEmp)
   }
 

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useReducer, useState } from 'react'
 import EmployeeTable from '../no2_components/employee/EmployeeTable';
 //import Register from '../no2_components/employee/Register';
 import EmployeeList from '../no2_components/employee/EmployeeList';
@@ -25,22 +25,67 @@ const initalState = {
   selectedId: ""
 }
 
+const reducer = (state, action) =>{
+  switch(action.type){
+    case "select" : 
+      return {
+        ...state,
+        selectedId: action.payload
+      }
+    case "set_emp" : 
+      return {
+        ...state,
+        emp: action.payload
+      }
+    case "register" :
+      return {
+        ...state,
+        empTable: [
+          ...state.empTable,
+          {
+            ...action.payload.emp,
+            id: action.payload.newId
+          }
+        ]
+      }
+    case "update":
+      return {
+        ...state,
+        empTable: state.empTable.map(item =>
+          item.id === state.selectedId ?
+          action.payload : item
+        )
+      }
+    case "delete" :
+      return{
+        ...state,
+        empTable: state.empTable.filter(item =>
+          item.id !== state.selectedId
+        )
+      }
+    case "mode" :
+      return{
+        ...state,
+        mode: action.payload
+      }
+    default : 
+      return state;
+  }
+}
+
+
 const EmployeePage = () => {
   // const [empTable, setEmpTable] = useState(initialEmps);
   // const [emp, setEmp] = useState(initialEmp);
   // const [mode,setode] = useState("register");
   // const [selectedId] = useState("");
-  const [state, setState] = useState(initalState);
+  //const [state, setState] = useState(initalState);
+  const [state, dispatch] = useReducer(reducer, initalState)
   const {empTable, emp, selectedId, mode} = state;
 
   useEffect(()=> {
     selectedId &&
-    setState(prev => (
-      {
-        ...prev, 
-        emp: empTable.filter(item => item.id === selectedId)[0]
-      }
-    ))
+    dispatch({type:"set_emp", payload: empTable.filter(item => item.id === selectedId)[0]})
   },[selectedId,empTable])
 
   const handledelete = () => {
@@ -49,14 +94,7 @@ const EmployeePage = () => {
       alert("삭제할 데이터를 선택하세요");
       return;
     }
-    setState(prev => (
-      {
-        ...prev,
-        empTable: prev.empTable.filter(item => item.id !==selectedId),
-        emp : initialEmp,
-        selectedId: ""
-      }
-    ))
+    dispatch({type: "delete"})
   }
 
     //const [infos, setInfos] = useState(initialEmps); 
@@ -64,27 +102,27 @@ const EmployeePage = () => {
   <div className="employee-page">
     <h2 className="employee-title">Employee Management</h2>
 
-    <EmployeeList state={state} setState={setState} />
+    <EmployeeList state={state} dispatch={dispatch} />
 
     <EmployeeTable state={state} />
 
     <div className="action-buttons">
-      <button onClick={() => setState(prev => ({ ...prev, mode: "register" }))}>
+      <button onClick={() => dispatch({type: "mode", payload: "register"})}>
         등록
       </button>
-      <button onClick={() => setState(prev => ({ ...prev, mode: "update" }))}>
+      <button onClick={() => dispatch({type: "mode", payload: "update"})}>
         수정
       </button>
-      <button onClick={() => setState(prev => ({ ...prev, mode: "delete" }))}>
+      <button onClick={() => dispatch({type: "mode", payload: "delete"})}>
         삭제
       </button>
     </div>
 
     {
       mode === "register" ?
-        <EmployeeRegister setState={setState} />
+        <EmployeeRegister dispatch={dispatch} />
       : mode === "update" ?
-        <EmployeeUpdate emp={emp} state={state} setState={setState} />
+        <EmployeeUpdate emp={emp} dispatch={dispatch} />
       : mode === "delete" ?
         <div className="delete-box">
           <button onClick={handledelete}>위 데이터를 삭제하시겠습니까?</button>

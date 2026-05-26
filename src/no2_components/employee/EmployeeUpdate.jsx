@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 
 
-const EmployeeUpdate = ({emp,setState,state}) => {
+const EmployeeUpdate = ({emp,dispatch}) => {
 
   const [ newemp, setNewEmp] = useState(emp);
 
@@ -20,17 +20,7 @@ const EmployeeUpdate = ({emp,setState,state}) => {
     
   const handleSubmmit = (event) =>{
       event.preventDefault();
-      setState(prev => (
-        {
-          ...prev,
-          empTable : prev.empTable.map(item => 
-            (
-              item.id === emp.id ?
-              newemp : item
-            )
-          )
-        }
-      ))
+      dispatch({type: "update", payload: newemp })
     }
     
       
