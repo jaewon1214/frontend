@@ -1,6 +1,7 @@
-import React from 'react'
+import React, { useContext } from 'react'
 import styled from 'styled-components'
 import { useNavigate } from 'react-router-dom'
+import { UserContext } from '../../no0_context/UserContext'
 
 const Header = styled.header`
   height: 60px;
@@ -64,17 +65,14 @@ const LogoutButton = styled(Button)`
   }
 `
 
-const Headbar = ({ LoginMode, setLoginMode }) => {
-
+const Headbar = () => {
+  const {state, dispatch} = useContext(UserContext);
+  const {isLogin,username} = state;
   const navigate = useNavigate();
 
   const handleLogout = () => {
 
-    setLoginMode(prev => ({
-      isLogin: false,
-      username:""
-    }))
-
+    dispatch({type: "Logout"})
     alert("로그아웃 되었습니다.")
 
     navigate("/login")
@@ -89,10 +87,10 @@ const Headbar = ({ LoginMode, setLoginMode }) => {
 
       <ButtonBox>
 
-        {LoginMode.isLogin ? (
+        {state.isLogin ? (
           <>
             <UserText>
-              안녕 {LoginMode.username}
+              안녕 {state.username}
             </UserText>
 
             <LogoutButton onClick={handleLogout}>

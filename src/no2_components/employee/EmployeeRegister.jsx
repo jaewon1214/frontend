@@ -1,6 +1,7 @@
-import React, { useState } from 'react'
+import React, { useContext, useState } from 'react'
+import { EmployeeContext } from '../../no0_context/EmployeeContext'
 
-const initialEmp = {
+/* initialEmp = {
   id : '', name : '',email : '', job: '',pay : ''
 }
 
@@ -15,22 +16,12 @@ const initialEmps = [
 const initialState = {
   empTable: initialEmps,
   emp: initialEmp
-}
-
-/*const reducer = (state, action) =>{
-  switch(action.type){
-    case "change" : 
-      const {name, value} = event.target;
-      return
-        {
-          ...state,
-          emp: {...state.emp, [name] : value  }
-        }
-  }
 }*/
 
-  const EmployeeRegister = ({dispatch}) => {
-  const [ emp,setEmp] = useState(initialEmp);
+const EmployeeRegister = () => {
+  const {state, dispatch} = useContext(EmployeeContext);
+  const {emp} = state;
+  //const [emp,setEmp] = useState(initialEmp);
 
   const handleChange = (event) =>{
     const {name,value} = event.target;

@@ -1,6 +1,7 @@
-import React, { useState } from 'react'
+import React, { useContext, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import styled from 'styled-components'
+import { UserContext } from '../../no0_context/UserContext'
 
 const initialState = {
     id: "",
@@ -10,6 +11,8 @@ const initialState = {
 }
 
 const RegisterForm = ({ setUsers }) => {
+    const {dispatch} = useContext(UserContext);
+
     const [user, setUser] = useState(initialState)
     const navigate = useNavigate()
 
@@ -30,14 +33,12 @@ const RegisterForm = ({ setUsers }) => {
             return
         }
 
-        setUsers(prev => ([
-            ...prev,
+        dispatch({type: "Register", payload : 
             {
-                id: Date.now(),
-                username: user.username,
+                id: Date.now, 
+                username: user.username, 
                 password: user.password
-            }
-        ]))
+            }})
 
         alert("회원가입이 완료되었습니다.")
         navigate('/login')

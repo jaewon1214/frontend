@@ -1,14 +1,17 @@
-import React from 'react'
+import React, { useContext } from 'react'
 import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import styled from 'styled-components'
+import { UserContext } from '../../no0_context/UserContext'
 
 const initialState = {
     username: "",
     password: ""
 }
 
-const LoginForm = ({ users, setLoginMode }) => {
+const LoginForm = () => {
+    const {state,dispatch} = useContext(UserContext)
+    const {users} = state
 
     const [user, setUser] = useState(initialState)
     const navigate = useNavigate();
@@ -32,12 +35,7 @@ const LoginForm = ({ users, setLoginMode }) => {
 
         if (loginUser) {
             alert("성공")
-
-            setLoginMode(prev => ({
-                ...prev,
-                isLogin: true,
-                username: loginUser.username
-            }))
+            dispatch({type:"Login", payload:loginUser})
 
             navigate('/')
         }

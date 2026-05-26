@@ -1,13 +1,14 @@
-import React, { useEffect, useReducer, useState } from 'react'
+import React, { useContext, useEffect, useReducer, useState } from 'react'
 import EmployeeTable from '../no2_components/employee/EmployeeTable';
 //import Register from '../no2_components/employee/Register';
 import EmployeeList from '../no2_components/employee/EmployeeList';
 import EmployeeRegister from '../no2_components/employee/EmployeeRegister';
 import EmployeeUpdate from '../no2_components/employee/EmployeeUpdate';
 import '../no2_components/employee/EmployeeStyle.css';
+import { EmployeeContext } from '../no0_context/EmployeeContext';
 
 
-const initialEmps = [
+/* const initialEmps = [
   {id : "1", name: "John", email: "John4454@example.com", job : "frontend", pay : 600 },
   {id : "2", name: "Peter", email: "Peter4454@example.com", job : "backend", pay : 601 },
   {id : "3", name: "Susan", email: "Susan4454@example.com", job : "db", pay : 602 },
@@ -71,17 +72,20 @@ const reducer = (state, action) =>{
     default : 
       return state;
   }
-}
+}*/
 
 
 const EmployeePage = () => {
+  const {state, dispatch} = useContext(EmployeeContext);
+  const {selectedId, empTable, mode} = state;
+
   // const [empTable, setEmpTable] = useState(initialEmps);
   // const [emp, setEmp] = useState(initialEmp);
   // const [mode,setode] = useState("register");
   // const [selectedId] = useState("");
   //const [state, setState] = useState(initalState);
-  const [state, dispatch] = useReducer(reducer, initalState)
-  const {empTable, emp, selectedId, mode} = state;
+  //const [state, dispatch] = useReducer(reducer, initalState)
+  //const {empTable, emp, selectedId, mode} = state;
 
   useEffect(()=> {
     selectedId &&
@@ -102,9 +106,9 @@ const EmployeePage = () => {
   <div className="employee-page">
     <h2 className="employee-title">Employee Management</h2>
 
-    <EmployeeList state={state} dispatch={dispatch} />
+    <EmployeeList />
 
-    <EmployeeTable state={state} />
+    <EmployeeTable />
 
     <div className="action-buttons">
       <button onClick={() => dispatch({type: "mode", payload: "register"})}>
@@ -120,9 +124,9 @@ const EmployeePage = () => {
 
     {
       mode === "register" ?
-        <EmployeeRegister dispatch={dispatch} />
+        <EmployeeRegister />
       : mode === "update" ?
-        <EmployeeUpdate emp={emp} dispatch={dispatch} />
+        <EmployeeUpdate />
       : mode === "delete" ?
         <div className="delete-box">
           <button onClick={handledelete}>위 데이터를 삭제하시겠습니까?</button>
