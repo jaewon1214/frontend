@@ -10,6 +10,7 @@ import RegisterPage from './no1_pages/user/RegisterPage'
 import { useState } from 'react'
 import EmployeeProvider from './no0_context/EmployeeContext'
 import UserProvider from './no0_context/UserContext'
+import TodoProvider from './no0_context/TodoContext'
 
 
 
@@ -36,14 +37,14 @@ export function App() {
 
   return (
     <BrowserRouter>
-    <UserProvider>
-      <Headbar/>
-    </UserProvider>
+      <UserProvider>
+         <Headbar/>
+    
       <Layout>
         <Sidebar />
 
         <Content>
-          <UserProvider>
+         
             <Routes>
               <Route path="/register" element={<
                 RegisterPage
@@ -54,7 +55,11 @@ export function App() {
                 />
               }/>
               <Route path="/" element={<HomePage/>}/>
-              <Route path="/todo" element={<TodoPage/>}/>
+              <Route path="/todo" element={
+                <TodoProvider>
+                  <TodoPage/>
+                </TodoProvider>
+              }/>
               <Route path="/employee" element={
                 <EmployeeProvider>
                   <EmployeePage/>
@@ -62,10 +67,12 @@ export function App() {
                 }/>
            
             </Routes>
-           </UserProvider>
+           
         </Content>
       </Layout>
-    </BrowserRouter>
+ 
+      </UserProvider>
+     </BrowserRouter>
   )
 }
 

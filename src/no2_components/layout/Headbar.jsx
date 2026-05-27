@@ -67,14 +67,13 @@ const LogoutButton = styled(Button)`
 
 const Headbar = () => {
   const {state, dispatch} = useContext(UserContext);
-  const {isLogin,username} = state;
+  const {islogin,username} = state;
   const navigate = useNavigate();
 
   const handleLogout = () => {
 
     dispatch({type: "Logout"})
     alert("로그아웃 되었습니다.")
-
     navigate("/login")
   }
 
@@ -87,10 +86,10 @@ const Headbar = () => {
 
       <ButtonBox>
 
-        {state.isLogin ? (
+        {islogin ? (
           <>
             <UserText>
-              안녕 {state.username}
+              안녕 {username}
             </UserText>
 
             <LogoutButton onClick={handleLogout}>

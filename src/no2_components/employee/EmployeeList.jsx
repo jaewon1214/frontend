@@ -3,6 +3,7 @@ import { EmployeeContext } from '../../no0_context/EmployeeContext';
 
 const EmployeeList = () => {
   const {state, dispatch} = useContext(EmployeeContext);
+  const {todoList} = state
   const {empTable, selectedId} = state;
   const handleClick = (id) => {
     dispatch({type: "select", payload: id})
@@ -13,6 +14,7 @@ const EmployeeList = () => {
       {empTable?.map(item => (
         <button
           key={item.id}
+          item = {item}
           onClick={() => handleClick(item.id)}
           style={{
             background: selectedId === item.id ? "#2563eb" : undefined,

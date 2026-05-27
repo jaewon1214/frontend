@@ -22,7 +22,7 @@ const reducer = (state, action) =>{
             return{
                 ...state,
                 islogin : true,
-                username : action.payload
+                username : action.payload.username
             }
         case "Register" :
             return{
@@ -31,8 +31,8 @@ const reducer = (state, action) =>{
                     ...state.users,
                     {
                         id: action.payload.id,
-                        username : action.payload.username,
-                        password : action.payload.password
+                        username : action.payload.user.username,
+                        password : action.payload.user.password
                     }
                 ]
             }

@@ -1,27 +1,9 @@
 import React, { useContext, useState } from 'react'
 import { EmployeeContext } from '../../no0_context/EmployeeContext'
 
-/* initialEmp = {
-  id : '', name : '',email : '', job: '',pay : ''
-}
-
-
-const initialEmps = [
-  {id : "1", name: "John", email: "John4454@example.com", job : "frontend", pay : 600 },
-  {id : "2", name: "Peter", email: "Peter4454@example.com", job : "backend", pay : 601 },
-  {id : "3", name: "Susan", email: "Susan4454@example.com", job : "db", pay : 602 },
-  {id : "4", name: "sue", email: "Sue4454@example.com", job : "ai", pay : 603 }
-]
-
-const initialState = {
-  empTable: initialEmps,
-  emp: initialEmp
-}*/
-
 const EmployeeRegister = () => {
   const {state, dispatch} = useContext(EmployeeContext);
-  const {emp} = state;
-  //const [emp,setEmp] = useState(initialEmp);
+  const [emp,setEmp] = useState(state.emp);
 
   const handleChange = (event) =>{
     const {name,value} = event.target;
@@ -37,7 +19,7 @@ const EmployeeRegister = () => {
 
     dispatch({type: "register", payload:{newId, emp}})
 
-    setEmp(initialEmp)
+    setEmp(state.emp)
   }
 
   
