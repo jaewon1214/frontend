@@ -5,91 +5,20 @@ import EmployeeList from '../no2_components/employee/EmployeeList';
 import EmployeeRegister from '../no2_components/employee/EmployeeRegister';
 import EmployeeUpdate from '../no2_components/employee/EmployeeUpdate';
 import '../no2_components/employee/EmployeeStyle.css';
-import { EmployeeContext } from '../no0_context/EmployeeContext';
-
-
-/* const initialEmps = [
-  {id : "1", name: "John", email: "John4454@example.com", job : "frontend", pay : 600 },
-  {id : "2", name: "Peter", email: "Peter4454@example.com", job : "backend", pay : 601 },
-  {id : "3", name: "Susan", email: "Susan4454@example.com", job : "db", pay : 602 },
-  {id : "4", name: "sue", email: "Sue4454@example.com", job : "ai", pay : 603 }
-]
-
-const initialEmp = {
-  id : '', name : '',email : '', job: '',pay : ''
-}
-
-const initalState = {
-  empTable:initialEmps,
-  emp: initialEmp,
-  mode : '',
-  selectedId: ""
-}
-
-const reducer = (state, action) =>{
-  switch(action.type){
-    case "select" : 
-      return {
-        ...state,
-        selectedId: action.payload
-      }
-    case "set_emp" : 
-      return {
-        ...state,
-        emp: action.payload
-      }
-    case "register" :
-      return {
-        ...state,
-        empTable: [
-          ...state.empTable,
-          {
-            ...action.payload.emp,
-            id: action.payload.newId
-          }
-        ]
-      }
-    case "update":
-      return {
-        ...state,
-        empTable: state.empTable.map(item =>
-          item.id === state.selectedId ?
-          action.payload : item
-        )
-      }
-    case "delete" :
-      return{
-        ...state,
-        empTable: state.empTable.filter(item =>
-          item.id !== state.selectedId
-        )
-      }
-    case "mode" :
-      return{
-        ...state,
-        mode: action.payload
-      }
-    default : 
-      return state;
-  }
-}*/
+import { useDispatch, useSelector } from 'react-redux';
+//import { EmployeeContext } from '../no0_context/EmployeeContext';
+import { set_emp, remove, setmode } from '../no3_store/slices/employeeSlice';
 
 
 const EmployeePage = () => {
-  const {state, dispatch} = useContext(EmployeeContext);
-  const {selectedId, empTable, mode} = state;
-
-  // const [empTable, setEmpTable] = useState(initialEmps);
-  // const [emp, setEmp] = useState(initialEmp);
-  // const [mode,setode] = useState("register");
-  // const [selectedId] = useState("");
-  //const [state, setState] = useState(initalState);
-  //const [state, dispatch] = useReducer(reducer, initalState)
-  //const {empTable, emp, selectedId, mode} = state;
+  //const {state, dispatch} = useContext(EmployeeContext);
+  const {selectedId, empTable, mode} = useSelector(state=>state.emp);
+  const dispatch = useDispatch();
 
   useEffect(()=> {
+    const newEmp = empTable.filter(item => item.id === selectedId)[0]
     selectedId &&
-    dispatch({type:"set_emp", payload: empTable.filter(item => item.id === selectedId)[0]})
+    dispatch(set_emp(newEmp))
   },[selectedId,empTable])
 
   const handledelete = () => {
@@ -98,7 +27,7 @@ const EmployeePage = () => {
       alert("삭제할 데이터를 선택하세요");
       return;
     }
-    dispatch({type: "delete"})
+    dispatch(remove())
   }
 
     //const [infos, setInfos] = useState(initialEmps); 
@@ -111,13 +40,13 @@ const EmployeePage = () => {
     <EmployeeTable />
 
     <div className="action-buttons">
-      <button onClick={() => dispatch({type: "mode", payload: "register"})}>
+      <button onClick={() => dispatch(setmode("register"))}>
         등록
       </button>
-      <button onClick={() => dispatch({type: "mode", payload: "update"})}>
+      <button onClick={() => dispatch(setmode("update"))}>
         수정
       </button>
-      <button onClick={() => dispatch({type: "mode", payload: "delete"})}>
+      <button onClick={() => dispatch(setmode("delete"))}>
         삭제
       </button>
     </div>

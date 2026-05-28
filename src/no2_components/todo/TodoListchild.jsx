@@ -4,19 +4,17 @@ import {
   MdCheckBoxOutlineBlank,
   MdRemoveCircleOutline
 } from "react-icons/md"
+import { useDispatch } from 'react-redux'
 import styled from 'styled-components'
-import { TodoContext } from '../../no0_context/TodoContext'
+import { remove, Toggle, Updata } from '../../no3_store/slices/todoSlice'
+//import { TodoContext } from '../../no0_context/TodoContext'
 
 const TodoListchild = ({item}) => {
+  const dispatch = useDispatch();
 
   const [editing, setEditing] = useState(false)
   const [value, setValue] = useState(item.subject);
-  const {state, dispatch} = useContext(TodoContext);
-
-
-  const handleToggle = () => {
-   dispatch({type : "Toggle", payload: item.id})
-  }
+  //const {state, dispatch} = useContext(TodoContext);
 
   const handleUpdate = () => {
     if(value.trim() === "") {
@@ -25,15 +23,11 @@ const TodoListchild = ({item}) => {
       return
     }
 
-    dispatch({type : "Update", payload:{id : item.id, value}})
+    dispatch(Updata(item.id, value))
 
     setEditing(false)
   }
-
-  const handleDelete = () => {
-    dispatch({type : "Delete", payload: item.id})
-  }
-
+  
   const handleEditStart = () => {
     setValue(item.subject)
     setEditing(true)
@@ -41,7 +35,7 @@ const TodoListchild = ({item}) => {
 
   return (
     <ItemBox $checked={item.checked}>
-      <CheckIcon onClick={handleToggle}>
+      <CheckIcon onClick={() => dispatch(Toggle(item.id))}>
         {
           item.checked
             ? <MdCheckBox />
@@ -73,7 +67,7 @@ const TodoListchild = ({item}) => {
         }
       </TextBox>
 
-      <DeleteIcon onClick={handleDelete}>
+      <DeleteIcon onClick={()=> dispatch(remove(item.id))}>
         <MdRemoveCircleOutline />
       </DeleteIcon>
     </ItemBox>

@@ -1,10 +1,12 @@
 import React, { useContext, useEffect, useState } from 'react'
 import { EmployeeContext } from '../../no0_context/EmployeeContext';
+import { useDispatch, useSelector } from 'react-redux';
+import { update } from '../../no3_store/slices/employeeSlice';
 
 
 const EmployeeUpdate = () => {
-  const {state,dispatch} = useContext(EmployeeContext);
-  const {emp} = state;
+  const dispatch = useDispatch();
+  const {emp} = useSelector(state=>state.emp);
   const [newemp, setNewEmp] = useState(emp);
   useEffect(()=>{
     emp &&
@@ -18,7 +20,7 @@ const EmployeeUpdate = () => {
     }
   const handleSubmmit = (event) =>{
       event.preventDefault();
-      dispatch({type: "update", payload: newemp })
+      dispatch(update(newemp))
     }
       return (
   <form className="employee-form" onSubmit={handleSubmmit}>

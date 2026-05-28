@@ -1,11 +1,12 @@
-import React, { useContext } from 'react'
+import React from 'react'
 import styled from 'styled-components'
 import TodoListchild from './TodoListchild'
-import { TodoContext } from '../../no0_context/TodoContext'
+import { useSearchParams } from 'react-router-dom'
+import { useSelector } from 'react-redux'
+//import { TodoContext } from '../../no0_context/TodoContext'
 
 const TodoList = () => {
-  const { state } = useContext(TodoContext)
-  const { todoList } = state
+  const { todoList } = useSelector(state=>state.todo);
 
   return (
     <ListBox>

@@ -1,21 +1,22 @@
-import React, { useContext } from 'react'
+import React from 'react'
 import { DiStackoverflow } from 'react-icons/di'
+import { useDispatch, useSelector } from 'react-redux'
 import styled from 'styled-components'
-import { TodoContext } from '../../no0_context/TodoContext'
+//import { TodoContext } from '../../no0_context/TodoContext'
+import { change, Register } from '../../no3_store/slices/todoSlice'
 
 const Todoinsert = () => {
-    const {state,dispatch} = useContext(TodoContext);
-    const {todoObj}=state
+  const {todoObj}=useSelector(state=>state.todo);
+  const dispatch = useDispatch();
   const handleChange = (e) => {
     const {name, value} = e.target;
-    dispatch({type:"change", payload : {name, value}})
+    dispatch(change({name, value}))
   }
 
   const handleSubmit = (e) => {
     e.preventDefault();
     if (todoObj.subject.trim() === "") return;
-
-    dispatch({ type: "Register" })
+    dispatch(Register())
   }
 
   return (
