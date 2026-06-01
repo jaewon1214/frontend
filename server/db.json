@@ -56,5 +56,42 @@
       "email": "kim@example.com",
       "city": "San Antonio"
     }
-  ]
+  ],
+  "employees": [
+    {
+      "id": "3",
+      "name": "Susan",
+      "email": "Susan4454@example.com",
+      "job": "db",
+      "pay": 602
+    },
+    {
+      "id": "4",
+      "name": "sue",
+      "email": "Sue4454@example.com",
+      "job": "ai",
+      "pay": 603
+    },
+    {
+      "name": "이순신",
+      "email": "exex@1111",
+      "job": "db",
+      "pay": "1111",
+      "id": "0vu4oeV2XcU"
+    }
+  ],
+  "todos": [
+    {
+      "subject": "ㅁㄴㅇㅁㄴㅇ",
+      "checked": false,
+      "id": "yqht0uhgL6s",
+      "value": "ㅁㄴㅇㅁㄴㅇ"
+    },
+    {
+      "subject": "ㄴㅁㅇ",
+      "checked": false,
+      "id": "KiE_S2Plr1A"
+    }
+  ],
+  "$schema": "./node_modules/json-server/schema.json"
 }

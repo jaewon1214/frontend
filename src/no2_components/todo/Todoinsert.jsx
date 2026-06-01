@@ -3,7 +3,8 @@ import { DiStackoverflow } from 'react-icons/di'
 import { useDispatch, useSelector } from 'react-redux'
 import styled from 'styled-components'
 //import { TodoContext } from '../../no0_context/TodoContext'
-import { change, Register } from '../../no3_store/slices/todoSlice'
+import { change } from '../../no3_store/slices/todoSlice'
+import { todoPostSlice } from '../../no3_store/slices/todoSlice'
 
 const Todoinsert = () => {
   const {todoObj}=useSelector(state=>state.todo);
@@ -16,7 +17,7 @@ const Todoinsert = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
     if (todoObj.subject.trim() === "") return;
-    dispatch(Register())
+    dispatch(todoPostSlice(todoObj))
   }
 
   return (

@@ -7,7 +7,7 @@ import EmployeeUpdate from '../no2_components/employee/EmployeeUpdate';
 import '../no2_components/employee/EmployeeStyle.css';
 import { useDispatch, useSelector } from 'react-redux';
 //import { EmployeeContext } from '../no0_context/EmployeeContext';
-import { set_emp, remove, setmode } from '../no3_store/slices/employeeSlice';
+import { set_emp, setmode, employeeDeleteSlice } from '../no3_store/slices/employeeSlice';
 
 
 const EmployeePage = () => {
@@ -27,7 +27,7 @@ const EmployeePage = () => {
       alert("삭제할 데이터를 선택하세요");
       return;
     }
-    dispatch(remove())
+    dispatch(employeeDeleteSlice(selectedId))
   }
 
     //const [infos, setInfos] = useState(initialEmps); 

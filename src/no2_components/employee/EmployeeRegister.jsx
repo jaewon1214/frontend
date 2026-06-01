@@ -2,10 +2,10 @@ import React, { useState } from 'react'
 //import { EmployeeContext } from '../../no0_context/EmployeeContext'
 import { useDispatch } from 'react-redux';
 import { useSelector } from 'react-redux';
-import { register } from '../../no3_store/slices/employeeSlice';
+import { employeePostSlice } from '../../no3_store/slices/employeeSlice';
 
 const initialEmp = {
-  id : '', name : '',email : '', job: '',pay : ''
+   name : '',email : '', job: '',pay : ''
 }
 
 const EmployeeRegister = () => {
@@ -21,11 +21,8 @@ const EmployeeRegister = () => {
 
   const handleSubmmit = (event) =>{
     event.preventDefault();
-    
-    const newId = Date.now().toString();
-
-    dispatch(register({newId, emp}));
-
+    //const newId = Date.now().toString();
+    dispatch(employeePostSlice(emp));
     setEmp(initialEmp)
   }
 

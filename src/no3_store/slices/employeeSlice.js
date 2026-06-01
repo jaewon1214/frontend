@@ -1,21 +1,63 @@
-import { createSlice } from "@reduxjs/toolkit"
+import { createAsyncThunk, createSlice } from "@reduxjs/toolkit"
+import { employeeAllGetapi, employeePostApi, employeePutApi, employeeDeleteApi } from "../apis/employee.api";
 
-const initialEmps = [
-  {id : "1", name: "John", email: "John4454@example.com", job : "frontend", pay : 600 },
-  {id : "2", name: "Peter", email: "Peter4454@example.com", job : "backend", pay : 601 },
-  {id : "3", name: "Susan", email: "Susan4454@example.com", job : "db", pay : 602 },
-  {id : "4", name: "sue", email: "Sue4454@example.com", job : "ai", pay : 603 }
-]
+
+
+export const employeeAllGetSlice = createAsyncThunk(
+    "employeeAllGetSlice",
+    async(_, thunkApi) => {
+        try{
+            return await employeeAllGetapi();
+        }catch(error){
+            return thunkApi.rejectWithValue(error.message)
+        }
+    }
+)
+
+export const employeePostSlice = createAsyncThunk(
+    "employeePostSlice",
+    async(dataObj, thunkApi) => {
+        try{
+            return await employeePostApi(dataObj);
+        }catch(error){
+            return thunkApi.rejectWithValue(error.message)
+        }
+    }
+)
+
+export const employeePutSlice = createAsyncThunk(
+    "employeePutSlice",
+    async(dataObj, thunkApi) => {
+        try{
+            return await employeePutApi(dataObj);
+        }catch(error){
+            return thunkApi.rejectWithValue(error.message)
+        }
+    }
+)
+
+export const employeeDeleteSlice = createAsyncThunk(
+    "employeeDeleteSlice",
+    async(dataObj, thunkApi) => {
+        try{
+            return await employeeDeleteApi(dataObj);
+        }catch(error){
+            return thunkApi.rejectWithValue(error.message)
+        }
+    }
+)
 
 const initialEmp = {
   id : '', name : '',email : '', job: '',pay : ''
 }
 
 const initialState = {
-  empTable:initialEmps,
+  empTable: [],
   emp: initialEmp,
   mode : '',
-  selectedId: ""
+  selectedId: "",
+  loading : false, 
+  error : null
 }
 
 const employeeSlice = createSlice({
@@ -28,21 +70,6 @@ const employeeSlice = createSlice({
         set_emp : (state, action) =>{
             state.emp = action.payload
         },
-        register : (state, action) =>{
-            state.empTable = [
-                ...state.empTable,
-                {
-                    ...action.payload.emp,
-                    id : action.payload.newId
-                }
-            ]
-        },
-        update : (state, action) => {
-            state.empTable = state.empTable.map(emp =>
-                emp.id === state.selectedId ?
-                action.payload : emp
-            )
-        },
         remove : (state, action) => {
             state.empTable = state.empTable.filter(emp =>
                 emp.id !== state.selectedId
@@ -51,6 +78,38 @@ const employeeSlice = createSlice({
         setmode : (state, action) => {
             state.mode = action.payload
         }
+    },
+    extraReducers: (builder) => {
+        builder
+             .addCase(employeeAllGetSlice.pending, (state)=>{
+                state.loading = true
+                state.error = null
+            })
+            .addCase(employeeAllGetSlice.fulfilled, (state, action)=>{
+                state.empTable = action.payload
+                state.loading = false
+            })
+            .addCase(employeeAllGetSlice.rejected, (state, action)=>{
+                state.loading = false
+                state.error = action.payload
+            })
+             .addCase(employeePostSlice.fulfilled, (state, action)=>{
+                state.empTable = [...state.empTable, action.payload]
+                state.loading = false
+            })
+             .addCase(employeePutSlice.fulfilled, (state, action)=>{
+                state.empTable = state.empTable.map(emp =>
+                    emp.id === state.selectedId ?
+                    action.payload : emp,
+                )
+                state.loading = false
+            })
+             .addCase(employeeDeleteSlice.fulfilled, (state)=>{
+                state.empTable = state.empTable.filter(emp => (
+                emp.id !== state.selectedId
+                ))
+                state.loading = false
+            })
     }
 })
 

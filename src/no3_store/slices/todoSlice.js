@@ -1,59 +1,139 @@
-import { createSlice } from "@reduxjs/toolkit"
+import { createAsyncThunk, createSlice } from "@reduxjs/toolkit"
+import { todoAllGetApi, todoPostApi, todoPutApi, todoDeleteApi } from "../apis/todo.api";
 
 
-const initialObj = {id : "", subject : "", checked : false}
+export const todoAllGetSlice = createAsyncThunk(
+    "todoAllGetSlice",
+    async(_, thunkApi) => {
+        try{
+            return await todoAllGetApi();
+        }catch(error){
+            return thunkApi.rejectWithValue(error.message)
+        }
+    }
+)
+
+export const todoPostSlice = createAsyncThunk(
+    "todoPostSlice",
+    async(dataObj, thunkApi) => {
+        try{
+            return await todoPostApi(dataObj);
+        }catch(error){
+            return thunkApi.rejectWithValue(error.message)
+        }
+    }
+)
+
+export const todoPutSlice = createAsyncThunk(
+    "todoPutSlice",
+    async(dataObj, thunkApi) => {
+        try{
+            return await todoPutApi(dataObj);
+        }catch(error){
+            return thunkApi.rejectWithValue(error.message)
+        }
+    }
+)
+
+export const todoToggleSlice = createAsyncThunk(
+    "todoToggleSlice",
+    async(dataObj, thunkAPI)=>{
+        try {
+
+            const newObj = {
+                ...dataObj,
+                checked: !dataObj.checked
+            }
+
+            return await todoPutApi(newObj);
+
+        } catch(error){
+            return thunkAPI.rejectWithValue(error.message);
+        }
+    }
+)
+
+export const todoDeleteSlice = createAsyncThunk(
+    "todoDeleteSlice",
+    async(dataObj, thunkApi) => {
+        try{
+            return await todoDeleteApi(dataObj);
+        }catch(error){
+            return thunkApi.rejectWithValue(error.message)
+        }
+    }
+)
+
+
+const initialObj = {subject : "", checked : false}
 
 const initialState = {
-  todoList : [
-    {id : 1, subject : "HTML 공부", checked : true},
-    {id : 2, subject : "CSS 공부", checked : false},
-    {id : 3, subject : "React 공부", checked : true},
-    {id : 4, subject : "Python 공부", checked : false},
-  ],
-  todoObj : initialObj
+  todoList : [],
+  todoObj : initialObj,
+  loading : false, 
+  error : null
 }
 
 const todoSlice = createSlice({
     name : "todoSlice", 
     initialState,
     reducers : {
-        remove : (state, action) => {
-            state.todoList = state.todoList.filter(todo=>
-                (todo.id !== action.payload)
-            )
-        },
-        Updata : (state, action) =>{
-            state.todoList = state.todoList.map(todo=>(
-                todo.id === action.payload.id ?
-                    {...todo, subject: action.payload.value}
-                    :todo
-            ))
-        },
-        Toggle : (state, action) =>{
-            state.todoList = state.todoList.map(todo=>(
-                todo.id === action.payload ?
-                    { ...todo, checked: !todo.checked }
-                    :todo
-            ))
-        },
         change : (state, action) =>{
             state.todoObj = {
                 ...state.todoObj,
                 [action.payload.name] : action.payload.value
             }
         },
-        Register : (state) =>{
-            state.todoList = [
-                ...state.todoList,
-                {
-                    ...state.todoObj,
-                    id: state.todoList.length>0 ?
-                        Math.max(...state.todoList.map(todo=>todo.id)) +1
-                        : 1
-                }
-            ]
-            state.todoObj = initialObj
-        }
+    },
+    extraReducers: (builder) => {
+        builder
+            .addCase(todoAllGetSlice.pending, (state)=>{
+                state.loading = true
+                state.error = null
+            })
+            .addCase(todoAllGetSlice.fulfilled, (state, action)=>{
+                state.todoList = action.payload
+                state.loading = false
+            })
+            .addCase(todoAllGetSlice.rejected, (state, action)=>{
+                state.loading = false
+                state.error = action.payload
+            })
+
+            .addCase(todoPostSlice.fulfilled, (state, action)=>{
+                state.todoList = state.todoList.push(action.payload);
+                state.loading = false
+                state.todoObj = initialObj
+            })
+
+            .addCase(todoPutSlice.fulfilled, (state, action)=>{
+                    /*state.todoList = state.todoList.map(todo=>(
+                    todo.id === action.payload.id ?
+                        {...todo, subject: action.payload.value}
+                        :todo
+                ))*/
+                    const newObj = state.todoList.find(todo=>todo.id === action.payload.id)
+                    state.todoList = state.todoList.map(todo=>(
+                        todo.id === action.payload.id ?
+                            action.payload : todo
+                    ))
+                    state.todoObj = newObj
+            })
+
+            .addCase(todoToggleSlice.fulfilled, (state, action) => {
+                state.todoList  = state.todoList.map(todo=>(
+                    todo.id === action.payload.id ?
+                    {...todo, checked: !todo.checked}
+                    : todo
+                    ))
+            })
+
+            .addCase(todoDeleteSlice.fulfilled, (state, action)=>{
+                state.todoList = state.todoList.filter(todo=>
+                    (todo.id !== action.payload)
+                )
+                state.loading = false
+            })
     }
 })
 

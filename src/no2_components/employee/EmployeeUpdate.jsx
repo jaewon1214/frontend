@@ -1,7 +1,7 @@
 import React, { useContext, useEffect, useState } from 'react'
 import { EmployeeContext } from '../../no0_context/EmployeeContext';
 import { useDispatch, useSelector } from 'react-redux';
-import { update } from '../../no3_store/slices/employeeSlice';
+import { employeePutSlice } from '../../no3_store/slices/employeeSlice';
 
 
 const EmployeeUpdate = () => {
@@ -20,7 +20,7 @@ const EmployeeUpdate = () => {
     }
   const handleSubmmit = (event) =>{
       event.preventDefault();
-      dispatch(update(newemp))
+      dispatch(employeePutSlice(newemp))
     }
       return (
   <form className="employee-form" onSubmit={handleSubmmit}>
