@@ -4,7 +4,8 @@ import { useNavigate } from 'react-router-dom'
 import styled from 'styled-components'
 //import { UserContext } from '../../no0_context/UserContext'
 import { useDispatch, useSelector } from 'react-redux'
-import { Login } from '../../no3_store/slices/userSlice'
+import {  userLoginSlice } from '../../no3_store/slices/userSlice'
+
 
 
 const initialState = {
@@ -32,19 +33,16 @@ const LoginForm = () => {
     const handleSubmit = (event) => {
         event.preventDefault();
 
-        const loginUser = users.filter(item => (
-            item.username === user.username &&
-            item.password === user.password
-        ))[0]
+        // const loginUser = users.filter(item => ( // frontend에서 실행하기에 좋은 코드가 아님 backend에서 사용해주는게 좋음
+        //     item.username === user.username &&
+        //     item.password === user.password
+        // ))[0]
 
-        if (loginUser) {
-            alert("성공")
-            dispatch(Login(loginUser.username))
-
+        if (user) {
+            console.log("user", user)
+            
+            dispatch(userLoginSlice(user))
             navigate('/')
-        }
-        else {
-            alert("사용자가 아닙니다")
         }
     }
 

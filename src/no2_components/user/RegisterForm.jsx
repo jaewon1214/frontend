@@ -2,14 +2,18 @@ import React, { useContext, useState } from 'react'
 import { useDispatch } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
 import styled from 'styled-components'
-import { register } from '../../no3_store/slices/userSlice'
+//import { register } from '../../no3_store/slices/userSlice'
 //import { UserContext } from '../../no0_context/UserContext'
+import { userRegisterSlice } from '../../no3_store/slices/userSlice'
 
 const initialState = {
     id: "",
     username: "",
     password: "",
-    confirmpassword: ""
+    confirmpassword: "",
+    age: "",
+    email: "",
+    city: "",
 }
 
 const RegisterForm = ({ setUsers }) => {
@@ -35,7 +39,7 @@ const RegisterForm = ({ setUsers }) => {
             return
         }
 
-        dispatch(register({id : Date.now(), user}))
+        dispatch(userRegisterSlice(user))
 
         alert("회원가입이 완료되었습니다.")
         navigate('/login')
@@ -69,6 +73,30 @@ const RegisterForm = ({ setUsers }) => {
                     value={user.confirmpassword}
                     onChange={handleChange}
                     placeholder="비밀번호 확인"
+                />
+
+                <Input
+                    type="number"
+                    name="age"
+                    value={user.age}
+                    onChange={handleChange}
+                    placeholder="나이 입력"
+                />
+
+                <Input
+                    type="email"
+                    name="email"
+                    value={user.email}
+                    onChange={handleChange}
+                    placeholder="이메일 입력"
+                />
+
+                <Input
+                    type="text"
+                    name="city"
+                    value={user.city}
+                    onChange={handleChange}
+                    placeholder="도시"
                 />
 
                 <RegisterButton>등록</RegisterButton>

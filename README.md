@@ -7,7 +7,7 @@ json 서버 만들기 : json-server(restfulAPI) : npm install -g json-server
 http://localhost:3001/user
 api 라이브러리 : npm install axios 
 
-
+query 라이브러리 : npm install @tanstack/react-query
 
 
 reducer
