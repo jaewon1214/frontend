@@ -1,15 +1,17 @@
-import React, { useState } from 'react'
+import React, { useReducer, useState } from 'react'
 //import { EmployeeContext } from '../../no0_context/EmployeeContext'
 import { useDispatch } from 'react-redux';
-import { useSelector } from 'react-redux';
-import { employeePostSlice } from '../../no3_store/slices/employeeSlice';
+//import { useSelector } from 'react-redux';
+//import { employeePostSlice } from '../../no3_store/slices/employeeSlice';
+import { usePostRegisterEmployee } from '../../no3_store/hooks/useEmployee';
 
 const initialEmp = {
    name : '',email : '', job: '',pay : ''
 }
 
 const EmployeeRegister = () => {
-  const dispatch = useDispatch();
+  //const dispatch = useDispatch();
+  const registerMutaion = usePostRegisterEmployee();
   const [emp, setEmp] = useState(initialEmp);
 
   const handleChange = (event) =>{
@@ -19,11 +21,17 @@ const EmployeeRegister = () => {
     ))
   }
 
-  const handleSubmmit = (event) =>{
+  const handleSubmmit = async (event) =>{
     event.preventDefault();
+    try{
+      await registerMutaion.mutateAsync(emp)
+      alert("직원 등록 완료")
+      setEmp(initialEmp)
+    }catch(error){
+      alert("직원 등록 실패")
+    }
     //const newId = Date.now().toString();
-    dispatch(employeePostSlice(emp));
-    setEmp(initialEmp)
+   // usePostRegisterEmployee(emp)
   }
 
  return (

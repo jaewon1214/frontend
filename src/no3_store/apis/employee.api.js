@@ -2,38 +2,49 @@ import axios from "axios";
 
 
 
-export const employeeAllGetapi = async() =>{
+export const employeeAllGetapi = async () =>{
     try{
-        const response = await axios.get("http://localhost:3001/employees")
+        const response = await axios.get("http://localhost:3001/employees");
+        //console.log(response.data)
         return response.data
     }catch(error){
-        return error
+        return new Error(error);
     }
 }
 
-export const employeePostApi = async(dataObj) =>{
+export const employeeGetapi = async (id) =>{
     try{
-        const response = await axios.post("http://localhost:3001/employees", dataObj)
+        const response = await axios.get(`http://localhost:3001/employees/${id}`);
+        //console.log(response.data)
         return response.data
     }catch(error){
-        return error
+        return new Error(error);
     }
 }
 
-export const employeePutApi = async(dataObj) =>{
+export const employeePostApi = async (dataObj) =>{
     try{
-        const response = await axios.put(`http://localhost:3001/employees/${dataObj.id}`, dataObj)
+        const response = await axios.post("http://localhost:3001/employees", dataObj);
         return response.data
     }catch(error){
-        return error
+        return new Error(error);
     }
 }
 
-export const employeeDeleteApi = async(id) =>{
+export const employeePutApi = async (dataObj) =>{
     try{
-        await axios.delete(`http://localhost:3001/employees/${id}`)
-        return id
+        const response = await axios.put(`http://localhost:3001/employees/${dataObj.id}`, dataObj);
+        return response.data
     }catch(error){
-        return error
+        return new Error(error);
+    }
+}
+
+export const employeeDeleteApi = async (id) =>{
+    try{
+        await axios.delete(`http://localhost:3001/employees/${id}`);
+        return id;
+    }catch(error){
+        return new Error(error);
     }
 }

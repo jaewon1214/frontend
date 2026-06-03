@@ -2,6 +2,7 @@ import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";//
 
 import {
     employeeAllGetapi,
+    employeeGetapi,
     employeePostApi,
     employeePutApi,
     employeeDeleteApi
@@ -17,6 +18,14 @@ export const useAllGetEmployee = () => {
     })
 }
 
+export const useGetEmployee = (id) => {
+    return useQuery({
+        queryKey : ["employees", id], 
+        queryFn : () => employeeGetapi(id),
+        enabled : !!id
+    })
+}
+
 export const usePostRegisterEmployee = () => {
     const queryClient = useQueryClient();
     return useMutation({
@@ -24,10 +33,16 @@ export const usePostRegisterEmployee = () => {
         onSuccess : (dataObj) =>{
             queryClient.setQueryData(
                 ["employees"],
-                (oldData=[]) =>[
-                    ...oldData, dataObj
-                ]
-            ); //데이터 변경
+                (oldData=[]) => (
+                    [
+                        ...oldData,
+                        dataObj
+                    ]
+                )
+            );
+            queryClient.invalidateQueries({
+                queryKey: ["employees"]
+            })
         }
     })
 }
@@ -39,17 +54,34 @@ export const usePutUpdateEmployee = () => {
         onSuccess : (dataObj) =>{
             queryClient.setQueryData(
                 ["employees"],
-                (oldData=[]) =>[
-                    oldData.map(
-                        item => item.id === dataObj.id ?
+                (oldData=[]) => (
+                    oldData.map(item=>(
+                        item.id === dataObj.id ?
                         dataObj : item
-                    )
-                ]
+                    )) 
+                )
             );
-            queryClient = setQueryData(
-                ["employees", dataObj.id],
-                employeePutApi
-            );
+
+
+            // queryClient.invalidateQueries({
+            //     queryKey: ["employees"],
+            //     // (oldData=[]) =>[
+            //     //     oldData.map(
+            //     //         item => item.id === dataObj.id ?
+            //     //         dataObj : item
+            //     //     )
+            //     // ]
+            // });
+            queryClient.invalidateQueries({
+                queryKey: ["employees", dataObj.id]
+            })
+            queryClient.invalidateQueries({
+                queryKey: ["employees"]
+            })
+            // queryClient = setQueryData(
+            //     ["employees", dataObj.id],
+            //     employeePutApi
+            // );
         }
     })
 }
@@ -61,15 +93,24 @@ export const useDeleteEmployee = () => {
         onSuccess : (id) =>{
             queryClient.setQueryData(
                 ["employees"],
-                (oldData=[]) =>[
-                    oldData.filter(
-                        item => item.id !== id
-                    )
-                ]
+                (oldData=[])=>(
+                    oldData.filter(item=>(
+                        item.id !== id
+                    ))
+                )
             );
-            queryClient = setQueryData(
-                ["employees", id],
-            );
+
+            // queryClient.setQueryData(
+            //     ["employees"],
+            //     (oldData=[]) =>[
+            //         oldData.filter(
+            //             item => item.id !== id
+            //         )
+            //     ]
+            // );
+            queryClient.removeQueries({
+                queryKey: ["employees", id]
+            });
         }
     })
 }

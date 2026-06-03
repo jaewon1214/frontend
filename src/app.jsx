@@ -8,13 +8,12 @@ import Sidebar from './no2_components/layout/Sidebar'
 import LoginPage from './no1_pages/user/LoginPage'
 import RegisterPage from './no1_pages/user/RegisterPage'
 import { useState } from 'react'
-import EmployeeProvider from './no0_context/EmployeeContext'
-import UserProvider from './no0_context/UserContext'
-import TodoProvider from './no0_context/TodoContext'
+// import EmployeeProvider from './no0_context/EmployeeContext'
+// import UserProvider from './no0_context/UserContext'
+// import TodoProvider from './no0_context/TodoContext'
 import { Provider } from 'react-redux'
 import store from './no3_store'
-
-
+import { QueryClient,QueryClientProvider } from '@tanstack/react-query'
 
 
 
@@ -34,34 +33,36 @@ const Content = styled.main`
     padding: 80px 20px 20px 20px;
   }
 `
-
+const queryClient = new QueryClient()
 export function App() {
 
   return (
     <BrowserRouter>
-    <Provider store={store}>
-      <Headbar/>
-      <Layout>
-        <Sidebar />
-        <Content> 
-          <Routes>
-            <Route path="/register" element={<
-              RegisterPage/>
-            }/>
-            <Route path="/login" element={<
-              LoginPage/>
-             }/>
-            <Route path="/" element={<HomePage/>}/>
-            <Route path="/todo" element={
-              <TodoPage/>
-            }/>
-            <Route path="/employee" element={
-              <EmployeePage/>
-            }/>
-          </Routes>
-        </Content>
-      </Layout>
-    </Provider>
+      <Provider store={store}>
+        <QueryClientProvider client={queryClient} >
+          <Headbar/>
+          <Layout>
+            <Sidebar />
+            <Content> 
+              <Routes>
+                <Route path="/register" element={<
+                  RegisterPage/>
+                }/>
+                <Route path="/login" element={<
+                  LoginPage/>
+                }/>
+                <Route path="/" element={<HomePage/>}/>
+                <Route path="/todo" element={
+                  <TodoPage/>
+                }/>
+                <Route path="/employee" element={
+                  <EmployeePage/>
+                }/>
+              </Routes>
+            </Content>
+          </Layout>
+        </QueryClientProvider>
+      </Provider>
   </BrowserRouter>
   )
 }

@@ -1,12 +1,15 @@
 import React, { useContext, useEffect, useState } from 'react'
 import { EmployeeContext } from '../../no0_context/EmployeeContext';
-import { useDispatch, useSelector } from 'react-redux';
-import { employeePutSlice } from '../../no3_store/slices/employeeSlice';
+//import { useDispatch, useSelector } from 'react-redux';
+import { useGetEmployee, usePutUpdateEmployee } from '../../no3_store/hooks/useEmployee';
+//import { employeePutSlice } from '../../no3_store/slices/employeeSlice';
 
 
-const EmployeeUpdate = () => {
-  const dispatch = useDispatch();
-  const {emp} = useSelector(state=>state.emp);
+const EmployeeUpdate = ({selectedId}) => {
+  //const dispatch = useDispatch();
+  //const {emp} = useSelector(state=>state.emp);
+  const {data: emp={}, isLoading, error} = useGetEmployee(selectedId)
+  const updateMutation = usePutUpdateEmployee();
   const [newemp, setNewEmp] = useState(emp);
   useEffect(()=>{
     emp &&
@@ -18,10 +21,18 @@ const EmployeeUpdate = () => {
       {...prev, [name] : value}
       ))
     }
-  const handleSubmmit = (event) =>{
+  const handleSubmmit = async(event) =>{
       event.preventDefault();
-      dispatch(employeePutSlice(newemp))
+      try{
+        await updateMutation.mutateAsync(newemp)
+        alert("직원 수정 완료")
+      }catch{
+        alert("직원 실패 완료")
+      }
+      // dispatch(employeePutSlice(newemp))
     }
+    if(isLoading) return <h3>직원 정보를 불러오는 중...</h3>
+    if(error) return <h3>에러 발생: {error.message}</h3>
       return (
   <form className="employee-form" onSubmit={handleSubmmit}>
     <div>
