@@ -1,17 +1,10 @@
 import Reaccdt, { useEffect } from 'react'
-//import { EmployeeContext } from '../../no0_context/EmployeeContext';
-//import { useDispatch, useSelector } from 'react-redux';
 import { employeeAllGetSlice, select } from '../../no3_store/slices/employeeSlice';
 import {
   useAllGetEmployee
 } from '../../no3_store/hooks/useEmployee'
 
 const EmployeeList = ({ selectedId, setSelectedId}) => {
-  // const {selectedId} = useSelector(state=>state.emp);
-  //const dispatch = useDispatch();
-  // useEffect(()=>{
-  //   dispatch(employeeAllGetSlice())
-  // },[dispatch])
   const {data: empTable=[], isLoading, error} = useAllGetEmployee();
   
  
@@ -19,7 +12,6 @@ const EmployeeList = ({ selectedId, setSelectedId}) => {
   if(error) return <h3>에러 발생: {error.message}</h3>
   return (
     <div className="employee-list">
-      {/* {console.log(empTable)} */}
       {empTable?.map(item => (
         <button
           key={item.id}

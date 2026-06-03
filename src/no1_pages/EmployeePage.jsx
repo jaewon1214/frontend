@@ -1,13 +1,10 @@
 import React, { useContext, useEffect, useReducer, useState } from 'react'
 import EmployeeTable from '../no2_components/employee/EmployeeTable';
-//import Register from '../no2_components/employee/Register';
 import EmployeeList from '../no2_components/employee/EmployeeList';
 import EmployeeRegister from '../no2_components/employee/EmployeeRegister';
 import EmployeeUpdate from '../no2_components/employee/EmployeeUpdate';
 import '../no2_components/employee/EmployeeStyle.css';
 import { useDispatch, useSelector } from 'react-redux';
-//import { EmployeeContext } from '../no0_context/EmployeeContext';
-//import { set_emp, setmode, employeeDeleteSlice } from '../no3_store/slices/employeeSlice';
 import {
   useAllGetEmployee,
   useDeleteEmployee,
@@ -16,19 +13,9 @@ import {
 
 
 const EmployeePage = () => {
-  //const [selectedId, setSelectedId] = useState(1);
-  //const {state, dispatch} = useContext(EmployeeContext);
-  //const {selectedId, empTable, mode} = useSelector(state=>state.emp);
-  //const dispatch = useDispatch();
   const [selectedId, setSelectedId] = useState('');
   const [mode, setMode] = useState("register")
   const deleteMutation = useDeleteEmployee();
-  
-  // useEffect(()=> {
-  //   const newEmp = empTable.filter(item => item.id === selectedId)[0]
-  //   selectedId &&
-  //   dispatch(set_emp(newEmp))
-  // },[selectedId,empTable])
   
 
   const handledelete = async () => {
@@ -47,7 +34,6 @@ const EmployeePage = () => {
     useDeleteEmployee(selectedId)
   }
 
-    //const [infos, setInfos] = useState(initialEmps); 
   return (
   <div className="employee-page">
     <h2 className="employee-title">Employee Management</h2>

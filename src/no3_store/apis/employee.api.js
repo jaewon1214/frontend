@@ -5,7 +5,6 @@ import axios from "axios";
 export const employeeAllGetapi = async () =>{
     try{
         const response = await axios.get("http://localhost:3001/employees");
-        //console.log(response.data)
         return response.data
     }catch(error){
         return new Error(error);
@@ -15,7 +14,6 @@ export const employeeAllGetapi = async () =>{
 export const employeeGetapi = async (id) =>{
     try{
         const response = await axios.get(`http://localhost:3001/employees/${id}`);
-        //console.log(response.data)
         return response.data
     }catch(error){
         return new Error(error);

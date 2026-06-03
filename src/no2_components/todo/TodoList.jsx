@@ -5,7 +5,6 @@ import { useSearchParams } from 'react-router-dom'
 import { useDispatch } from 'react-redux'
 import { useSelector} from 'react-redux'
 import { todoAllGetSlice } from '../../no3_store/slices/todoSlice'
-//import { TodoContext } from '../../no0_context/TodoContext'
 
 const TodoList = () => {
   const { todoList } = useSelector(state=>state.todo);

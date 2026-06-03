@@ -107,11 +107,6 @@ const todoSlice = createSlice({
             })
 
             .addCase(todoPutSlice.fulfilled, (state, action)=>{
-                    /*state.todoList = state.todoList.map(todo=>(
-                    todo.id === action.payload.id ?
-                        {...todo, subject: action.payload.value}
-                        :todo
-                ))*/
                     const newObj = state.todoList.find(todo=>todo.id === action.payload.id)
                     state.todoList = state.todoList.map(todo=>(
                         todo.id === action.payload.id ?

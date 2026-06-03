@@ -7,22 +7,13 @@ import {
 import { useDispatch } from 'react-redux'
 import styled from 'styled-components'
 import { todoPutSlice, todoAllGetSlice, todoDeleteSlice, todoToggleSlice, Updata } from '../../no3_store/slices/todoSlice'
-//import { TodoContext } from '../../no0_context/TodoContext'
 
 const TodoListchild = ({item}) => {
   const dispatch = useDispatch();
 
   const [editing, setEditing] = useState(false)
   const [value, setValue] = useState(item.subject);
-  //const {state, dispatch} = useContext(TodoContext);
-
   const handleUpdate = () => {
-    /*if(value.trim() === "") {
-      setEditing(false)
-      setValue(item.subject)
-      return
-    }*/
-
     dispatch(todoPutSlice({...item, subject : value}))
 
     setEditing(false)

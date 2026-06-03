@@ -1,11 +1,6 @@
 import React from 'react'
 import { useGetEmployee } from '../../no3_store/hooks/useEmployee'
-//import { EmployeeContext } from '../../no0_context/EmployeeContext';
-//import { useSelector } from 'react-redux';
-
 const EmployeeTable = ({selectedId}) => {
-  //const {state} = useContext(EmployeeContext);
-  // const {emp} = useSelector(state=>state.emp);
   if(!selectedId) return <h3>직원을 선택하세요</h3>
   const {data: emp={}, isLoading, error } = useGetEmployee(selectedId);
   if(isLoading) return <h3>로딩중...</h3>

@@ -54,26 +54,6 @@ const initialState = {
 const userSlice = createSlice({
     name : "userSlice",
     initialState,
-    // reducers : {
-    //     // // Login : (state, action) => {
-    //     // //     state.islogin = true,
-    //     // //     state.username = action.payload
-    //     // // },
-    //     // register : (state, action) => {
-    //     //     state.users = [
-    //     //         ...state.users,
-    //     //         {
-    //     //             id : action.payload.id,
-    //     //             username : action.payload.user.username,
-    //     //             password : action.payload.user.password
-    //     //         }
-    //     //     ]
-    //     // },
-    //     Logout : (state, action) => {
-    //         state.islogin = false,
-    //         state.username = ""
-    //     }        
-    // },
     extraReducers : (builder) => {
         builder
             .addCase(userLoginSlice.pending, (state)=>{

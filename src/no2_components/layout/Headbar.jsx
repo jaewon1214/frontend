@@ -1,7 +1,6 @@
 import React from 'react'
 import styled from 'styled-components'
 import { useNavigate } from 'react-router-dom'
-//import { UserContext } from '../../no0_context/UserContext'
 import { useDispatch, useSelector } from 'react-redux'
 import { userLogOutSlice } from '../../no3_store/slices/userSlice'
 

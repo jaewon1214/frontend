@@ -61,27 +61,12 @@ export const usePutUpdateEmployee = () => {
                     )) 
                 )
             );
-
-
-            // queryClient.invalidateQueries({
-            //     queryKey: ["employees"],
-            //     // (oldData=[]) =>[
-            //     //     oldData.map(
-            //     //         item => item.id === dataObj.id ?
-            //     //         dataObj : item
-            //     //     )
-            //     // ]
-            // });
             queryClient.invalidateQueries({
                 queryKey: ["employees", dataObj.id]
             })
             queryClient.invalidateQueries({
                 queryKey: ["employees"]
             })
-            // queryClient = setQueryData(
-            //     ["employees", dataObj.id],
-            //     employeePutApi
-            // );
         }
     })
 }

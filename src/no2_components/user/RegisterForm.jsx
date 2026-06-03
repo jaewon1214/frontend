@@ -2,8 +2,6 @@ import React, { useContext, useState } from 'react'
 import { useDispatch } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
 import styled from 'styled-components'
-//import { register } from '../../no3_store/slices/userSlice'
-//import { UserContext } from '../../no0_context/UserContext'
 import { userRegisterSlice } from '../../no3_store/slices/userSlice'
 
 const initialState = {
@@ -17,7 +15,6 @@ const initialState = {
 }
 
 const RegisterForm = ({ setUsers }) => {
-    //const {dispatch} = useContext(UserContext);
     const dispatch = useDispatch();
     const [user, setUser] = useState(initialState)
     const navigate = useNavigate()

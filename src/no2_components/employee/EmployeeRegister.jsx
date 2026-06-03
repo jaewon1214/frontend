@@ -1,8 +1,5 @@
 import React, { useReducer, useState } from 'react'
-//import { EmployeeContext } from '../../no0_context/EmployeeContext'
 import { useDispatch } from 'react-redux';
-//import { useSelector } from 'react-redux';
-//import { employeePostSlice } from '../../no3_store/slices/employeeSlice';
 import { usePostRegisterEmployee } from '../../no3_store/hooks/useEmployee';
 
 const initialEmp = {
@@ -10,7 +7,6 @@ const initialEmp = {
 }
 
 const EmployeeRegister = () => {
-  //const dispatch = useDispatch();
   const registerMutaion = usePostRegisterEmployee();
   const [emp, setEmp] = useState(initialEmp);
 
@@ -30,8 +26,6 @@ const EmployeeRegister = () => {
     }catch(error){
       alert("직원 등록 실패")
     }
-    //const newId = Date.now().toString();
-   // usePostRegisterEmployee(emp)
   }
 
  return (
